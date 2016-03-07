@@ -19,9 +19,6 @@
      this.click_count = 0;
      this.currentRoute = null;
      console.log(this);
-	 
-	 //id, mis läheb purgile kaasa
-	 this.jar_id = 0;
 
      // hakkan hoidma kõiki purke
      this.jars = [];
@@ -87,17 +84,12 @@
 
                var new_jar = new Jar(jar.id, jar.title, jar.ingredients);
 				
-				//uuendad moosipurgi id'd et hiljem jätkata kus pooleli jäi
-				Moosipurk.instance.jar_id = jar.id;
 
                var li = new_jar.createHtmlElement();
                document.querySelector('.list-of-jars').appendChild(li);
 
            });
 		   
-		   //fix suurendame id'd järgmise purgi jaoks ühe võrra
-		   //kui eelmine oli 2 siis järgmine oleks 3
-			this.jar_id++;
        }
 
 
@@ -137,6 +129,7 @@
 			if(jar.id == event.target.dataset.id){
 				
 				//mis index ja mitu. + lisaks saab asendada vajadusel
+				//http://www.w3schools.com/jsref/tryit.asp?filename=tryjsref_splice1
 				Moosipurk.instance.jars.splice(i, 1);
 			}
               
@@ -184,10 +177,8 @@
 
        //console.log(title + ' ' + ingredients);
        //1) tekitan uue Jar'i
-       var new_jar = new Jar(this.jar_id, title, ingredients);
+       var new_jar = new Jar(guid(), title, ingredients);
 	   
-	   //suurenda id'd
-	   this.jar_id++;
 
        //lisan massiiivi purgi
        this.jars.push(new_jar);
@@ -293,7 +284,20 @@
 
      }
    };
+   
+   /* HELPERID*/
+	function guid() {
+	  return s4() + s4() + '-' + s4() + '-' + s4() + '-' +
+		s4() + '-' + s4() + s4() + s4();
+	}
 
+	function s4() {
+	  return Math.floor((1 + Math.random()) * 0x10000)
+		.toString(16)
+		.substring(1);
+	}
+   
+	
    // kui leht laetud käivitan Moosipurgi rakenduse
    window.onload = function(){
      var app = new Moosipurk();
