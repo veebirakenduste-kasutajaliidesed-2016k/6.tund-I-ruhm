@@ -85,13 +85,19 @@
            //tekitan loendi htmli
            this.jars.forEach(function(jar){
 
-               var new_jar = new Jar(jar.title, jar.ingredients);
+               var new_jar = new Jar(jar.id, jar.title, jar.ingredients);
+				
+				//uuendad moosipurgi id'd et hiljem jätkata kus pooleli jäi
+				Moosipurk.instance.jar_id = jar.id;
 
                var li = new_jar.createHtmlElement();
                document.querySelector('.list-of-jars').appendChild(li);
 
            });
-
+		   
+		   //fix suurendame id'd järgmise purgi jaoks ühe võrra
+		   //kui eelmine oli 2 siis järgmine oleks 3
+			this.jar_id++;
        }
 
 
