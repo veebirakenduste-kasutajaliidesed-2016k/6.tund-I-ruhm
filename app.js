@@ -19,6 +19,9 @@
      this.click_count = 0;
      this.currentRoute = null;
      console.log(this);
+	 
+	 //id, mis läheb purgile kaasa
+	 this.jar_id = 0;
 
      // hakkan hoidma kõiki purke
      this.jars = [];
@@ -143,7 +146,10 @@
 
        //console.log(title + ' ' + ingredients);
        //1) tekitan uue Jar'i
-       var new_jar = new Jar(title, ingredients);
+       var new_jar = new Jar(this.jar_id, title, ingredients);
+	   
+	   //suurenda id'd
+	   this.jar_id++;
 
        //lisan massiiivi purgi
        this.jars.push(new_jar);
@@ -193,7 +199,8 @@
 
    }; // MOOSIPURGI LÕPP
 
-   var Jar = function(new_title, new_ingredients){
+   var Jar = function(new_id, new_title, new_ingredients){
+	 this.id = new_id;
      this.title = new_title;
      this.ingredients = new_ingredients;
      console.log('created new jar');
