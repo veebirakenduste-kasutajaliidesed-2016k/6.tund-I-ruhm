@@ -113,7 +113,39 @@
        document.querySelector('#search').addEventListener('keyup', this.search.bind(this));
 
      },
-
+	 
+	 deleteJar: function(event){
+		
+		//li element
+		console.log(event.target.parentNode);
+		//id (data-id väärtus)
+		console.log(event.target.dataset.id);
+		
+		var c = confirm('kustuta?');
+		
+		//kui ei olnud nõus katkestame
+		if(!c){ return; }
+		
+		//kustutame HTMList
+		var clicked_li = event.target.parentNode;
+		document.querySelector('.list-of-jars').removeChild(clicked_li);
+		
+		//kustutan massiivist
+		this.jars.forEach(function(jar, i){
+			
+			//sama id, mis vajutasime
+			if(jar.id == event.target.dataset.id){
+				
+				//mis index ja mitu. + lisaks saab asendada vajadusel
+				Moosipurk.instance.jars.splice(i, 1);
+			}
+              
+        });
+		
+		// salvesta uuesti localStorage'isse
+       localStorage.setItem('jars', JSON.stringify(this.jars));
+		
+	 },
      search: function(event){
          //otsikasti väärtus
          var needle = document.querySelector('#search').value.toLowerCase();
@@ -241,6 +273,21 @@
        span_with_content.appendChild(content);
 
        li.appendChild(span_with_content);
+	   
+	   // tekitan delete nupu
+	   
+	   var delete_span = document.createElement('span');
+	   delete_span.appendChild(document.createTextNode(' kustuta'));
+		
+	   delete_span.style.color = 'red';
+	   delete_span.style.cursor = 'pointer';
+	   
+	   //panen külge id
+	   delete_span.setAttribute('data-id', this.id);
+	   
+	   delete_span.addEventListener('click', Moosipurk.instance.deleteJar.bind(Moosipurk.instance));
+	   
+	   li.appendChild(delete_span);
 
        return li;
 
